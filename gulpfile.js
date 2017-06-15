@@ -13,7 +13,7 @@ var pngquant = require('imagemin-pngquant');
 var autoprefixer = require('gulp-autoprefixer');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-concat = require('gulp-concat');
+var concat = require('gulp-concat');
 
 //构建一个处理静态文件的 server ，并监听工作目录，
 //当工作目录有文件变化时立即进行相关操作并执行 browserSync.reload 重新加载页面。
