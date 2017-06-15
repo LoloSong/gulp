@@ -11,6 +11,9 @@ var zip = require('gulp-zip');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var autoprefixer = require('gulp-autoprefixer');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+concat = require('gulp-concat');
 
 //构建一个处理静态文件的 server ，并监听工作目录，
 //当工作目录有文件变化时立即进行相关操作并执行 browserSync.reload 重新加载页面。
@@ -25,8 +28,8 @@ gulp.task('serve',function(){
 			})
 		}
 	});
-	gulp.watch('app/scss/**/*.scss',['sass']);
-	gulp.watch('app/scripts/**/*.js',['js']);
+	gulp.watch('app/css/**/*.scss',['sass']);
+	gulp.watch('app/js/**/*.js',['js']);
 	gulp.watch('app/**/*.html',['html']);
 	gulp.watch('app/images/**/*.{png,jpg,gif,svg}',['images'])
 	gulp.watch('dist/**/*.html').on('change',browserSync.reload);
@@ -34,7 +37,7 @@ gulp.task('serve',function(){
 
 //编译 sass 文件、并自动注入到浏览器
 gulp.task('sass',function(){
-	return gulp.src('app/scss/**/*.scss')
+	return gulp.src('app/css/**/*.scss')
 			.pipe(plumber())
 			.pipe(sass.sync().on('error',sass.logError))
 			.pipe(sass({outputStyle:'compressed'}))
@@ -42,16 +45,18 @@ gulp.task('sass',function(){
 				browsers: ['last 2 versions'],
 				cascade: false
 			}))
-			.pipe(gulp.dest('dist/styles'))
+			.pipe(gulp.dest('dist/css'))
 			.pipe(browserSync.stream());
 });
 
 //压缩 javascript 文件
 gulp.task('js',function(){
-	return gulp.src('app/scripts/**/*.js')
+	return gulp.src('app/js/**/*.js')
 			.pipe(plumber())
-			.pipe(minify())
-			.pipe(gulp.dest('dist/scripts'))
+			.pipe(concat('main.js'))
+			.pipe(rename({suffix: '.min'}))
+			.pipe(uglify())
+			.pipe(gulp.dest('dist/js'))
 			.pipe(browserSync.stream());
 });
 
@@ -83,4 +88,4 @@ gulp.task('publish',function(){
 });
 
 //编辑默认任务
-gulp.task('default',['html','serve','images'])
+gulp.task('default',['html','images','sass','js','serve']);
