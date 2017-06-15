@@ -83,4 +83,4 @@ gulp.task('publish',function(){
 });
 
 //编辑默认任务
-gulp.task('default',['html','serve'])
+gulp.task('default',['html','serve','images'])
