@@ -37,7 +37,7 @@ gulp.task('sass',function(){
 	return gulp.src('app/scss/**/*.scss')
 			.pipe(plumber())
 			.pipe(sass.sync().on('error',sass.logError))
-			.pipe(sass({outputStyle:'expanded'}))
+			.pipe(sass({outputStyle:'compressed'}))
 			.pipe(autoprefixer({
 				browsers: ['last 2 versions'],
 				cascade: false
