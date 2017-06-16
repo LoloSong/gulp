@@ -53,7 +53,6 @@ gulp.task('sass',function(){
 gulp.task('js',function(){
 	return gulp.src('app/js/**/*.js')
 			.pipe(plumber())
-			.pipe(concat('main.js'))
 			.pipe(uglify())
 			.pipe(gulp.dest('dist/js'))
 			.pipe(browserSync.stream());
